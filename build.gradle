@@ -24,6 +24,10 @@ dependencies {
     // db migration lib
     implementation 'org.flywaydb:flyway-core'
 
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
