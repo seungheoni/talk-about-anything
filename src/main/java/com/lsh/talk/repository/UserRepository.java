@@ -1,6 +1,6 @@
-package com.lsh.devicemanager.repository;
+package com.lsh.talk.repository;
 
-import com.lsh.devicemanager.domain.User;
+import com.lsh.talk.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

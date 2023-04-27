@@ -1,4 +1,4 @@
-package com.lsh.devicemanager.domain;
+package com.lsh.talk.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
