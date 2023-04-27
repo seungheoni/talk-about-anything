@@ -29,6 +29,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // test container lib
+    testImplementation 'org.testcontainers:testcontainers:1.17.5'
+    testImplementation "org.testcontainers:postgresql:1.17.5"
 }
 
 tasks.named('test') {
