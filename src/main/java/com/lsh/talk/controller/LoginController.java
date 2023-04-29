@@ -1,4 +1,4 @@
-package com.lsh.devicemanager.controller;
+package com.lsh.talk.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
