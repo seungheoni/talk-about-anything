@@ -14,6 +14,6 @@ VALUES (
            'admin',
            encode(digest('qwer1234', 'sha256'), 'hex'),
            'sha256',
-           current_date,
-           current_date
+           now(),
+           now()
        );
