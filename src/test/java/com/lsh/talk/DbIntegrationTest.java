@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DbIntegrationTest {
 
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withDatabaseName("talk-about-anything")
+            .withDatabaseName("talkAboutAnything")
             .withUsername("seongheon")
             .withPassword("qwer1234");;
 
