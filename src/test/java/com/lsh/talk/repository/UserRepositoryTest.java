@@ -25,12 +25,12 @@ class UserRepositoryTest extends DbIntegrationTest {
     void findById() {
 
         // 테스트 데이터 생성
-        User user = new User();
-        user.setName("test");
-        user.setPassword("qwer1234");
-        user.setHashType("");
-        user.setUpdateDate(Instant.now());
-        user.setCreateDate(Instant.now());
+        User user = User.builder()
+                .name("test")
+                .password("qwer1234")
+                .hashType("")
+                .updateDate(Instant.now())
+                .createDate(Instant.now()).build();
 
         // 저장
         userRepository.save(user);

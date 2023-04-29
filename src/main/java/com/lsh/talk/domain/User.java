@@ -1,34 +1,35 @@
 package com.lsh.talk.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue
-    @Column(name = "user_id",updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private UUID userId;
 
-    @Column(name = "name",nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "password" , nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "hash_type", nullable = false)
+    @Column(nullable = false)
     private String hashType;
 
-    @Column(name = "update_date", nullable = false)
+    @Column(nullable = false)
     private Instant updateDate;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(nullable = false)
     private Instant createDate;
 }
