@@ -6,7 +6,8 @@ services:
     environment:
       POSTGRES_USER: seongheon
       POSTGRES_PASSWORD: qwer1234
-      POSTGRES_DB: devicemanager
+      POSTGRES_DB: talkAboutAnything
+      TZ: Asia/Seoul
     ports:
       - "5432:5432"
     volumes:
