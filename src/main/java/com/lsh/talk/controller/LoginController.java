@@ -20,7 +20,7 @@ public class LoginController {
 
     @GetMapping("/main")
     public String home(Model model) {
-        model.addAttribute("username", "John Doe");
+        model.addAttribute("username", "승헌");
         model.addAttribute("friends", Arrays.asList("Friend 1", "Friend 2", "Friend 3"));
         model.addAttribute("chats", Arrays.asList("Chat 1", "Chat 2", "Chat 3"));
         return "main/main";

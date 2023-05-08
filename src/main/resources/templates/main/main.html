@@ -94,7 +94,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>환영합니다, <span th:text="${username}">님 자유로운 채팅을 즐기세요.</span>!</h1>
+    <h1>환영합니다, <span th:text="${username}"></span>님</h1>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Friends')" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
         <button class="tablinks" onclick="openTab(event, 'Chats')" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
