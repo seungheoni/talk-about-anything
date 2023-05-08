@@ -24,11 +24,29 @@ spring:
 
   mvc:
     static-path-pattern: /static/**
+
+
+  #spring.thymeleaf.prefix= ViewResolver의 접두어, 기본값은 classpath:/templates/
+  #spring.thymeleaf.suffix= ViewResolver의 접미어, 기본값 .html
+  #spring.thymeleaf.encoding= 템플릿의 인코딩, 기본값 UTF-8
+  #spring.thymeleaf.check-template= 렌더링전에 템플릿 유무 확인, 기본값 true
+  #spring.thymeleaf.check-template-location= 템플릿 위치 존재 확인, 기본값 true
+  #spring.thymeleaf.mode= 사용할 타임리프 TemplateMode, 기본값 HTML
+  #spring.thymeleaf.cache= 처리된 템플릿의 캐시 여부, 기본값 true
+  #spring.thymeleaf.template-resolver-order= ViewResolver의 순서, 기본값 1
+  #spring.thymeleaf.view-names= ViewResolver로 처리될 뷰 이름, 쉼표로 구분
+  #spring.thymeleaf.excluded-view-names= 처리내에서 제외할 뷰 이름, 쉼표로 구분
+  #spring.thymeleaf.enabled= 타임리프 활성화 여부, 기본값 true
+  #spring.thymeleaf.enable-spring-el-compiler= SpEl 표현식 편집 여부, 기본값 flase
+  #spring.thymeleaf.servlet.content-type= http응답에 사용될 콘텐츠 타입, 기본값 text/html
+
   thymeleaf:
-    check-template-location: true
-    prefix: classpath:templates/
     suffix: .html
+    mode: HTML
     cache: false
+    check-template: false
+    encoding: UTF-8
+    template-resolver-order: 1
 
   devtools:
     livereload:

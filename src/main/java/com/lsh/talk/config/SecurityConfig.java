@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -18,13 +19,15 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/static/css/**","/static/image/**").permitAll()
+                                .requestMatchers("/main").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
-                        formLogin.loginPage("/login").permitAll()
+                        formLogin.loginPage("/login")
+                                .defaultSuccessUrl("/main", true)
+                                .permitAll()
                 )
-                .logout(logout ->
-                        logout.permitAll()
+                .logout(LogoutConfigurer::permitAll
                 );
         return http.build();
     }

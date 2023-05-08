@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        /* Tab styles */
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>환영합니다, <span th:text="${username}">님 자유로운 채팅을 즐기세요.</span>!</h1>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Friends')" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
+        <button class="tablinks" onclick="openTab(event, 'Chats')" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
+    </div>
+
+    <div id="Friends" class="tabcontent" th:style="${activeTab == 'Friends'} ? 'display:block'">
+        <h2>Friends</h2>
+        <ul>
+            <!-- Add your friends list here -->
+            <li>Friend 1</li>
+            <li>Friend 2</li>
+            <li>Friend 3</li>
+        </ul>
+    </div>
+
+    <div id="Chats" class="tabcontent" th:style="${activeTab == 'Chats'} ? 'display:block'">
+        <h2>Chats</h2>
+        <ul>
+            <!-- Add your chat list here -->
+            <li>Chat 1</li>
+            <li>Chat 2</li>
+            <li>Chat 3</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
