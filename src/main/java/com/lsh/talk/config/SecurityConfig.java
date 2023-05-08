@@ -17,7 +17,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/static/css/**").permitAll()
+                                .requestMatchers("/static/css/**","/static/image/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

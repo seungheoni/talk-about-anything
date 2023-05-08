@@ -30,6 +30,9 @@ spring:
     suffix: .html
     cache: false
 
+  devtools:
+    livereload:
+      enabled: true
 
 logging:
   level:
