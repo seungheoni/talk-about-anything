@@ -4,36 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        form {
-            background-color: #f3f3f3;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/login/login.css}">
 </head>
 <body>
+<div class="logo-container">
+    <img th:src="@{/static/image/logo.png}" alt="Chat Logo" class="logo" />
+</div>
 <form th:action="@{/login}" method="post">
     <div>
         <label for="username">Username:</label>
