@@ -1,7 +1,7 @@
 package com.lsh.talk.repository;
 
 import com.lsh.talk.DbIntegrationTest;
-import com.lsh.talk.domain.User;
+import com.lsh.talk.domain.ChatUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserRepositoryTest extends DbIntegrationTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private ChatUserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
@@ -25,7 +25,7 @@ class UserRepositoryTest extends DbIntegrationTest {
     void findById() {
 
         // 테스트 데이터 생성
-        User user = User.builder()
+        ChatUser user = ChatUser.builder()
                 .name("test")
                 .password("qwer1234")
                 .hashType("")
@@ -36,7 +36,7 @@ class UserRepositoryTest extends DbIntegrationTest {
         userRepository.save(user);
 
         // 조회
-        Optional<User> foundUser = userRepository.findById(user.getUserId());
+        Optional<ChatUser> foundUser = userRepository.findById(user.getId());
 
         // 검증
         assertThat(foundUser).isPresent();

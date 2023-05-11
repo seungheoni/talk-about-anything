@@ -8,15 +8,15 @@ import java.util.UUID;
 
 @Getter
 @Entity
-@Table(name = "users")
+@Table(name = "chat_user")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class ChatUser {
     @Id
     @GeneratedValue
     @Column(updatable = false, nullable = false)
-    private UUID userId;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
