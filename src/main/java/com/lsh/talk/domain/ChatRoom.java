@@ -1,14 +1,19 @@
 package com.lsh.talk.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 
 @Entity
 @Table(name = "chat_room")
+@Getter
+@Setter
 public class ChatRoom {
 
     @Id
@@ -20,7 +25,7 @@ public class ChatRoom {
     private String name;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @ManyToOne
     @JoinColumn(name="created_chat_user_id", nullable=false)
