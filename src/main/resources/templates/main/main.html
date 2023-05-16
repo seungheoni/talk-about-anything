@@ -17,27 +17,13 @@
 
     <div id="Friends" class="tabcontent" th:style="${activeTab == 'Friends'} ? 'display:block'">
         <ul>
-            <!-- Add your friends list here -->
-            <li>Friend 1</li>
-            <li>Friend 2</li>
-            <li>Friend 3</li>
-            <li>Friend 4</li>
-            <li>Friend 5</li>
-            <li>Friend 6</li>
-            <li>Friend 7</li>
+            <li th:each="friend : ${friends}" th:text="${friend.friendChatUser.name}"></li>
         </ul>
     </div>
 
     <div id="Chats" class="tabcontent" th:style="${activeTab == 'Chats'} ? 'display:block'">
         <ul>
-            <!-- Add your chat list here -->
-            <li>Chat 1</li>
-            <li>Chat 2</li>
-            <li>Chat 3</li>
-            <li>Chat 4</li>
-            <li>Chat 5</li>
-            <li>Chat 6</li>
-            <li>Chat 7</li>
+            <li th:each="room : ${rooms}" th:text="${room.chatRoom.name}"></li>
         </ul>
     </div>
 </div>
