@@ -1,19 +1,19 @@
 package com.lsh.talk.domain;
 
+import com.lsh.talk.domain.idclass.ChatFriendId;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "chat_friend")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(ChatFriendId.class)
 public class ChatFriend {
 
     @Id
@@ -27,6 +27,6 @@ public class ChatFriend {
     private ChatUser friendChatUser;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
 }

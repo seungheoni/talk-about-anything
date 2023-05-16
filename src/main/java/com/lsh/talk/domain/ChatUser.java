@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "chat_user")
 @Builder

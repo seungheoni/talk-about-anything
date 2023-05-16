@@ -1,5 +1,6 @@
-package com.lsh.talk;
+package com.lsh.talk.runner;
 
+import com.lsh.talk.config.coder.SHA256PasswordEncoder;
 import com.lsh.talk.domain.ChatFriend;
 import com.lsh.talk.domain.ChatRoom;
 import com.lsh.talk.domain.ChatRoomParticipant;
@@ -8,47 +9,29 @@ import com.lsh.talk.repository.ChatFriendRepository;
 import com.lsh.talk.repository.ChatRoomParticipantRepository;
 import com.lsh.talk.repository.ChatRoomRepository;
 import com.lsh.talk.repository.ChatUserRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+@Component
+@Profile("dev")
+@RequiredArgsConstructor
+public class DevDataRunner implements ApplicationRunner {
 
-@SpringBootTest
-public class DbIntegrationTest {
+    private final ChatUserRepository chatUserRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatFriendRepository chatFriendRepository;
+    private final ChatRoomParticipantRepository chatRoomParticipantRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ChatUserRepository chatUserRepository;
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
 
-    @Autowired
-    private ChatRoomRepository chatRoomRepository;
-
-    @Autowired
-    private ChatFriendRepository chatFriendRepository;
-
-    @Autowired
-    private ChatRoomParticipantRepository chatRoomParticipantRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withDatabaseName("talkAboutAnything")
-            .withUsername("seongheon")
-            .withPassword("qwer1234");;
-
-    static {
-        postgreSQLContainer.start();
-    }
-
-    @BeforeEach
-    public void setUp() {
         ChatUser seongheon = new ChatUser();
         seongheon.setName("seongheon");
         seongheon.setPassword(passwordEncoder.encode("qwer1234"));
@@ -108,17 +91,5 @@ public class DbIntegrationTest {
         participant2.setChatUser(seongheon);
         participant2.setJoinedDate(Instant.now());
         chatRoomParticipantRepository.save(participant2);
-    }
-
-    @DynamicPropertySource
-    public static void setProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-    }
-
-    @Test
-    public void pingTest() {
-        assertTrue(postgreSQLContainer.isRunning());
     }
 }
