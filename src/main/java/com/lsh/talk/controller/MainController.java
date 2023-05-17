@@ -1,6 +1,5 @@
 package com.lsh.talk.controller;
 
-import com.lsh.talk.domain.ChatRoomParticipant;
 import com.lsh.talk.domain.ChatUser;
 import com.lsh.talk.repository.ChatFriendRepository;
 import com.lsh.talk.repository.ChatRoomParticipantRepository;

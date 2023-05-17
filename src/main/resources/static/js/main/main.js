@@ -11,3 +11,8 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+function openChatRoom(element) {
+    var roomId = element.getAttribute('data-room-id');
+    window.location.href = '/chatRoom/' + roomId;
+}
