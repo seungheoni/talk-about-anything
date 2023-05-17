@@ -32,10 +32,15 @@ ul {
 li {
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease; /* This allows smooth transition */
 }
 
 li:last-child {
     border-bottom: none;
+}
+
+li:hover {
+    background-color: #f5f5f5; /* Change this to the color you want on hover */
 }
 
 /* Tab styles */
