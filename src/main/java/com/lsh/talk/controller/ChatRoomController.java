@@ -15,12 +15,12 @@ import java.util.UUID;
 @RequestMapping("/chatRoom")
 public class ChatRoomController {
     @Autowired
-    private ChatRoomService chatRoomService; // Assumes you have a service to get chat room data
+    private ChatRoomService chatRoomService;
 
     @GetMapping("/{roomId}")
     public String getChatRoom(@PathVariable("roomId") UUID roomId, Model model) {
-        ChatRoom chatRoom = chatRoomService.getChatRoomById(roomId); // Assumes you have a method to get chat room by id
+        ChatRoom chatRoom = chatRoomService.getChatRoomById(roomId);
         model.addAttribute("chatRoom", chatRoom);
-        return "chatRoom/chatRoom"; // Return the chatRoom view (chatRoom.html)
+        return "chatRoom/chatRoom";
     }
 }

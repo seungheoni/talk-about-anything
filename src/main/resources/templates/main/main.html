@@ -23,7 +23,7 @@
 
     <div id="Chats" class="tabcontent" th:style="${activeTab == 'Chats'} ? 'display:block'">
         <ul>
-            <li th:each="room : ${rooms}" th:attr="data-room-id=${room.chatRoom.id}" onclick="openChatRoom(this)" th:text="${room.chatRoom.name}"></li>
+            <li th:each="room : ${rooms}" th:attr="data-room-id=${room.id}" onclick="openChatRoom(this)" th:text="${room.name}"></li>
         </ul>
     </div>
 </div>
