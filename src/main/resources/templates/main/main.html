@@ -6,10 +6,19 @@
     <title>Main</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/main/main.css}">
     <script th:src="@{/static/js/main/main.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 <div class="container">
     <h1>환영합니다, <span th:text="${username}"></span>님</h1>
+    <div>
+        <button id="add-friend-btn" class="top-bar-btn" style="display: none;" onclick="addFriend()">
+            <i class="fas fa-user-plus"></i>
+        </button>
+        <button id="start-chat-btn" class="top-bar-btn" style="display: none;" onclick="startChat()">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Friends')" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
         <button class="tablinks" onclick="openTab(event, 'Chats')" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
