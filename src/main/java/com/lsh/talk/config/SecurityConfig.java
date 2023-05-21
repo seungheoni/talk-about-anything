@@ -16,7 +16,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(authorizeRequests ->
+                .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/static/css/**","/static/image/**","/static/js/**").permitAll()
                                 .requestMatchers("/main").authenticated()
@@ -32,6 +32,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    //추후 bcrypt로 바꾸기
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new SHA256PasswordEncoder();
