@@ -20,8 +20,8 @@
         </button>
     </div>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'Friends')" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
-        <button class="tablinks" onclick="openTab(event, 'Chats')" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
+        <button class="tablinks" data-tab="Friends" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
+        <button class="tablinks" data-tab="Chats" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
     </div>
 
     <div id="Friends" class="tabcontent" th:style="${activeTab == 'Friends'} ? 'display:block'">
@@ -34,6 +34,17 @@
         <ul>
             <li th:each="room : ${rooms}" th:attr="data-room-id=${room.id}" onclick="openChatRoom(this)" th:text="${room.name}"></li>
         </ul>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>친구를 추가해주세요.</p>
+            <form id="add-friend-form" onsubmit="addFriendSubmit(event)">
+                <input type="text" id="friend-name" placeholder="친구 이름을 입력하세요">
+                <button type="submit">추가</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>
