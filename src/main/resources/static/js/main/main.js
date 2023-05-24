@@ -9,33 +9,54 @@ window.onload = function() {
         openTab(event, 'Chats');
     });
 
-    // Get the modal
     var modal = document.getElementById("myModal");
 
-    // Get the close button
     var closeButton = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on the close button, close the modal
     closeButton.onclick = function() {
-        // Get the modal
         var modal = document.getElementById("myModal");
 
-        // Remove the "open" class and add the "close" class
         modal.classList.remove("open");
         modal.classList.add("close");
 
-        // After the animation is complete, hide the modal
         setTimeout(function() {
             modal.style.display = "none";
-        }, 500);  // The duration of the animation
+        }, 500);
     }
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
+
+    let addFriendSubmit = document.getElementById('add-friend-submit');
+    let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    let csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+    addFriendSubmit.addEventListener('click', function(event){
+        event.preventDefault();
+        let friendName = document.getElementById('friend-name').value;
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/v1/add-friend", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 204) {
+                    // 성공적으로 친구가 추가되었을 때 실행할 코드
+                    alert('친구 추가에 성공 했습니다');
+                    // 추가된 친구를 화면에 업데이트하는 로직을 작성하세요
+                } else {
+                    // 친구 추가 실패 시 실행할 코드
+                    alert('친구 추가 실패');
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify({friendName: friendName}));
+    });
 };
 
 function openTab(evt, tabName) {
@@ -70,41 +91,12 @@ function openChatRoom(element) {
     window.location.href = '/chatRoom/' + roomId;
 }
 
-function addFriend() {
-    // Get the modal
+function addFriendOpenModal() {
+
     var modal = document.getElementById("myModal");
 
-
-    // Remove the "close" class and add the "open" class
     modal.classList.remove("close");
     modal.classList.add("open");
 
-    // Open the modal
     modal.style.display = "block";
-}
-
-function addFriendSubmit(event) {
-    event.preventDefault(); // 폼 제출 시 페이지 새로고침 방지
-
-    // 입력된 친구 이름 가져오기
-    var friendName = document.getElementById('friend-name').value;
-
-    // AJAX를 사용하여 서버로 친구 이름 전송
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/add-friend', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            // 성공적으로 친구가 추가되었을 때 실행할 코드
-            console.log('친구 추가 성공');
-            // 추가된 친구를 화면에 업데이트하는 로직을 작성하세요
-        } else {
-            // 친구 추가 실패 시 실행할 코드
-            console.log('친구 추가 실패');
-        }
-    };
-
-    var data = JSON.stringify({ friendName: friendName });
-    xhr.send(data);
 }

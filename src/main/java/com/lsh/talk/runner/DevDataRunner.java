@@ -1,6 +1,5 @@
 package com.lsh.talk.runner;
 
-import com.lsh.talk.config.coder.SHA256PasswordEncoder;
 import com.lsh.talk.domain.ChatFriend;
 import com.lsh.talk.domain.ChatRoom;
 import com.lsh.talk.domain.ChatRoomParticipant;
@@ -40,31 +39,47 @@ public class DevDataRunner implements ApplicationRunner {
         seongheon.setCreateDate(Instant.now());
         chatUserRepository.save(seongheon);
 
-        ChatUser friend1 = new ChatUser();
-        friend1.setName("friend1");
-        friend1.setPassword(passwordEncoder.encode("qwer1234"));
-        friend1.setHashType("SHA-256");
-        friend1.setUpdateDate(Instant.now());
-        friend1.setCreateDate(Instant.now());
-        chatUserRepository.save(friend1);
+        ChatUser user1 = new ChatUser();
+        user1.setName("simin");
+        user1.setPassword(passwordEncoder.encode("qwer1234"));
+        user1.setHashType("SHA-256");
+        user1.setUpdateDate(Instant.now());
+        user1.setCreateDate(Instant.now());
+        chatUserRepository.save(user1);
 
-        ChatUser friend2 = new ChatUser();
-        friend2.setName("friend2");
-        friend2.setPassword(passwordEncoder.encode("qwer1234"));
-        friend2.setHashType("SHA-256");
-        friend2.setUpdateDate(Instant.now());
-        friend2.setCreateDate(Instant.now());
-        chatUserRepository.save(friend2);
+        ChatUser user2 = new ChatUser();
+        user2.setName("sunsin");
+        user2.setPassword(passwordEncoder.encode("qwer1234"));
+        user2.setHashType("SHA-256");
+        user2.setUpdateDate(Instant.now());
+        user2.setCreateDate(Instant.now());
+        chatUserRepository.save(user2);
+
+        ChatUser user3 = new ChatUser();
+        user3.setName("gunhee");
+        user3.setPassword(passwordEncoder.encode("qwer1234"));
+        user3.setHashType("SHA-256");
+        user3.setUpdateDate(Instant.now());
+        user3.setCreateDate(Instant.now());
+        chatUserRepository.save(user3);
+
+        ChatUser user4 = new ChatUser();
+        user4.setName("gimi");
+        user4.setPassword(passwordEncoder.encode("qwer1234"));
+        user4.setHashType("SHA-256");
+        user4.setUpdateDate(Instant.now());
+        user4.setCreateDate(Instant.now());
+        chatUserRepository.save(user4);
 
         ChatFriend chatFriend1 = new ChatFriend();
         chatFriend1.setChatUser(seongheon);
-        chatFriend1.setFriendChatUser(friend1);
+        chatFriend1.setFriendChatUser(user1);
         chatFriend1.setCreatedDate(Instant.now());
         chatFriendRepository.save(chatFriend1);
 
         ChatFriend chatFriend2 = new ChatFriend();
         chatFriend2.setChatUser(seongheon);
-        chatFriend2.setFriendChatUser(friend2);
+        chatFriend2.setFriendChatUser(user2);
         chatFriend2.setCreatedDate(Instant.now());
         chatFriendRepository.save(chatFriend2);
 
