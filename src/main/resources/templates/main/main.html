@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Main</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/main/main.css}">
     <script th:src="@{/static/js/main/main.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 <div class="container">
     <h1>환영합니다, <span th:text="${username}"></span>님</h1>
+    <div>
+        <button id="add-friend-btn" class="top-bar-btn" style="display: none;" onclick="addFriendOpenModal()">
+            <i class="fas fa-user-plus"></i>
+        </button>
+        <button id="start-chat-btn" class="top-bar-btn" style="display: none;" onclick="startChat()">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'Friends')" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
-        <button class="tablinks" onclick="openTab(event, 'Chats')" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
+        <button class="tablinks" data-tab="Friends" th:classappend="${activeTab == 'Friends'} ? 'active'">Friends</button>
+        <button class="tablinks" data-tab="Chats" th:classappend="${activeTab == 'Chats'} ? 'active'">Chats</button>
     </div>
 
     <div id="Friends" class="tabcontent" th:style="${activeTab == 'Friends'} ? 'display:block'">
@@ -25,6 +36,15 @@
         <ul>
             <li th:each="room : ${rooms}" th:attr="data-room-id=${room.id}" onclick="openChatRoom(this)" th:text="${room.name}"></li>
         </ul>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>친구를 추가해주세요.</p>
+            <input type="text" id="friend-name" placeholder="친구 이름을 입력하세요">
+            <button id="add-friend-submit">추가</button>
+        </div>
     </div>
 </div>
 </body>
