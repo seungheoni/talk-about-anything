@@ -28,7 +28,7 @@
 
     <div id="Friends" class="tabcontent" th:style="${activeTab == 'Friends'} ? 'display:block'">
         <ul>
-            <li th:each="friend : ${friends}" th:text="${friend.friendChatUser.name}"></li>
+            <li th:each="friend : ${friends}" th:text="${friend.friendName}"></li>
         </ul>
     </div>
 

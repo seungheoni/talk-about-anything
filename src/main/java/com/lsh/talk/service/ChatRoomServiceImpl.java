@@ -5,6 +5,7 @@ import com.lsh.talk.domain.ChatRoomParticipant;
 import com.lsh.talk.domain.ChatUser;
 import com.lsh.talk.repository.ChatRoomParticipantRepository;
 import com.lsh.talk.repository.ChatRoomRepository;
+import com.lsh.talk.repository.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomParticipantRepository chatRoomParticipantRepository;
 
-    @Override
-    public List<ChatRoom> listOfChatRoomsUserBelongsTo(ChatUser chatUser) {
+    private final ChatUserRepository chatUserRepository;
 
+    @Override
+    public List<ChatRoom> listOfChatRoomsUserBelongsTo(String userName) {
+
+        ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
         return chatRoomParticipantRepository.findAllByChatUser(chatUser)
                 .stream().map(ChatRoomParticipant::getChatRoom).collect(Collectors.toList());
     }
