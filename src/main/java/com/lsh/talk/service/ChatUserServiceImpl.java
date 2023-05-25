@@ -2,6 +2,8 @@ package com.lsh.talk.service;
 
 import com.lsh.talk.domain.ChatFriend;
 import com.lsh.talk.domain.ChatUser;
+import com.lsh.talk.dto.response.FriendResponse;
+import com.lsh.talk.entitymap.FriendMapper;
 import com.lsh.talk.repository.ChatFriendRepository;
 import com.lsh.talk.repository.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,15 +22,16 @@ public class ChatUserServiceImpl implements ChatUserService {
 
     private final ChatFriendRepository chatFriendRepository;
 
-    @Override
-    public ChatUser getChatUserByChatUser(String userName) {
-
-        return chatUserRepository.findByName(userName).orElseThrow();
-    }
+    private final FriendMapper friendMapper;
 
     @Override
-    public List<ChatFriend> listOfUsersInFriendRelationship(ChatUser chatUser) {
-        return chatFriendRepository.findAllByChatUser(chatUser);
+    public List<FriendResponse> listOfUsersInFriendRelationship(String userName) {
+
+        ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
+
+        return chatFriendRepository.findAllByChatUser(chatUser).stream()
+                .map(friendMapper::ChatFriendToFriendResponseMapper)
+                .collect(Collectors.toList());
     }
 
     @Override

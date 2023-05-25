@@ -47,7 +47,7 @@ window.onload = function() {
                 if (xhr.status === 204) {
                     // 성공적으로 친구가 추가되었을 때 실행할 코드
                     alert('친구 추가에 성공 했습니다');
-                    // 추가된 친구를 화면에 업데이트하는 로직을 작성하세요
+                    updateFriendList();
                 } else {
                     // 친구 추가 실패 시 실행할 코드
                     alert('친구 추가 실패');
@@ -99,4 +99,32 @@ function addFriendOpenModal() {
     modal.classList.add("open");
 
     modal.style.display = "block";
+}
+
+function updateFriendList() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/v1/friends', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var friends = JSON.parse(xhr.responseText);
+            var friendListElement = document.getElementById('Friends').getElementsByTagName('ul')[0];
+
+            // 기존 친구 목록을 비우기
+            while (friendListElement.firstChild) {
+                friendListElement.removeChild(friendListElement.firstChild);
+            }
+
+            // 새 친구 목록을 추가하기
+            for (var i = 0; i < friends.length; i++) {
+                var li = document.createElement('li');
+                li.textContent = friends[i].friendName;
+                friendListElement.appendChild(li);
+            }
+
+        }
+    };
+
+    xhr.send();
 }

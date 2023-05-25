@@ -28,6 +28,10 @@ dependencies {
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // 도메인,dto 손쉬운 변환을 위한 라이브러리
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
     // 서버 재기동없이 화면 렌더링 수정 반영
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

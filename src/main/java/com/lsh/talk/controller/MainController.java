@@ -20,10 +20,10 @@ public class MainController {
 
     @GetMapping("/main")
     public String home(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        ChatUser chatUser = chatUserService.getChatUserByChatUser(userDetails.getUsername());
-        model.addAttribute("username", chatUser.getName());
-        model.addAttribute("friends", chatUserService.listOfUsersInFriendRelationship(chatUser));
-        model.addAttribute("rooms", chatRoomService.listOfChatRoomsUserBelongsTo(chatUser));
+        String userName = userDetails.getUsername();
+        model.addAttribute("username", userName);
+        model.addAttribute("friends", chatUserService.listOfUsersInFriendRelationship(userName));
+        model.addAttribute("rooms", chatRoomService.listOfChatRoomsUserBelongsTo(userName));
         return "main/main";
     }
 }

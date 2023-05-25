@@ -1,6 +1,7 @@
 package com.lsh.talk.controller.rest;
 
 import com.lsh.talk.dto.request.FriendRequest;
+import com.lsh.talk.dto.response.FriendResponse;
 import com.lsh.talk.service.ChatUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,4 +25,11 @@ public class UserController {
 
         chatUserService.addFriend(userDetail,friendRequest.getFriendName());
     }
+
+    @GetMapping(value = "/friends",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<FriendResponse> getFriends(@AuthenticationPrincipal UserDetails userDetail) {
+
+        return chatUserService.listOfUsersInFriendRelationship(userDetail.getUsername());
+    }
+
 }
