@@ -58,8 +58,6 @@ window.onload = function() {
         xhr.send(JSON.stringify({friendName: friendName}));
     });
 
-
-
     // 새로운 채팅방 생성하기
     document.querySelector('#start-chat-btn').addEventListener('click', startChat);
 
@@ -72,6 +70,41 @@ window.onload = function() {
             modal.style.display = "none";
         }, 500);
     }
+
+    // 새로운 채팅방 생성하기
+    document.querySelector('#start-chat-submit').addEventListener('click', function(event){
+        event.preventDefault();
+        let selectedFriends = Array.from(document.querySelectorAll('#start-chat-form input:checked'), input => input.value);
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/v1/chatrooms", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 204) {
+                    // 채팅방 생성에 성공했을 때 실행할 코드
+                    alert('채팅방이 성공적으로 생성되었습니다.');
+
+                    // 채팅방 생성 후 모달 닫기
+                    var chatModal = document.getElementById("chatModal");
+                    chatModal.classList.remove("open");
+                    chatModal.classList.add("close");
+
+                    setTimeout(function() {
+                        chatModal.style.display = "none";
+                    }, 500);
+
+                    // 여기서는 채팅방 리스트를 업데이트하는 등 필요한 작업을 수행할 수 있습니다.
+                } else {
+                    // 채팅방 생성 실패 시 실행할 코드
+                    alert('채팅방 생성 실패');
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(selectedFriends));
+    });
 };
 
 function openTab(evt, tabName) {

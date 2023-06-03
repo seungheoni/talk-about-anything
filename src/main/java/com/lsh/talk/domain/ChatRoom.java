@@ -1,8 +1,7 @@
 package com.lsh.talk.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
@@ -14,6 +13,9 @@ import java.util.UUID;
 @Table(name = "chat_room")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatRoom {
 
     @Id

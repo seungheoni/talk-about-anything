@@ -10,5 +10,5 @@ public interface ChatUserService {
 
     List<FriendResponse> listOfUsersInFriendRelationship(String userName);
 
-    void addFriend(UserDetails userDetail,String newFriendName);
+    void addFriend(UserDetails loginUser,String newFriendName);
 }
