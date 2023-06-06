@@ -9,5 +9,5 @@ import org.mapstruct.Mapping;
 public interface FriendMapper {
 
     @Mapping(source = "friendChatUser.name",target = "friendName")
-    FriendResponse ChatFriendToFriendResponseMapper(ChatFriend chatFriend);
+    FriendResponse chatFriendToFriendResponseMapper(ChatFriend chatFriend);
 }

@@ -9,6 +9,7 @@ import com.lsh.talk.repository.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -30,11 +31,19 @@ public class ChatUserServiceImpl implements ChatUserService {
         ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
 
         return chatFriendRepository.findAllByChatUser(chatUser).stream()
-                .map(friendMapper::ChatFriendToFriendResponseMapper)
+                .map(friendMapper::chatFriendToFriendResponseMapper)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 친구 추가 서비스,
+     * transaction 어노테이션을 활용한 더티체킹
+     * 더티체킹: 최초 영속성 컨텍스트(persist context) 등록 후 스냅샷을 뜨며 트랜잭션 종료 시점에 스냅샷과 비교하여 엔티티 변화를 감지하여 자동 업데이트 하는것
+     * @param userDetail
+     * @param newFriendName
+     */
     @Override
+    @Transactional
     public void addFriend(UserDetails userDetail, String newFriendName) {
         ChatUser loginUser = chatUserRepository.findByName(userDetail.getUsername()).orElseThrow();
         ChatUser newFriendUser = chatUserRepository.findByName(newFriendName).orElseThrow();

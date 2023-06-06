@@ -2,8 +2,7 @@ package com.lsh.talk.domain;
 
 import com.lsh.talk.domain.idclass.ChatRoomParticipantId;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -13,6 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @IdClass(ChatRoomParticipantId.class)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatRoomParticipant {
 
     @Id

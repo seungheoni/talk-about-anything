@@ -4,32 +4,30 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 @Entity
-@Table(name = "chat_room")
+@Table(name = "chat_profile")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatRoom {
+public class ChatProfile {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name="chat_user_id", nullable=false)
+    private ChatUser chatUser;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "created_date", nullable = false)
-    private Instant createdDate;
-
-    @ManyToOne
-    @JoinColumn(name="created_chat_user_id", nullable=false)
-    private ChatUser createdChatUser;
+    @Column(name = "profile_icon")
+    private Byte[] profileIcon;
 }
