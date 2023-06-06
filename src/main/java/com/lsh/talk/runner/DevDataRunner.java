@@ -1,13 +1,8 @@
 package com.lsh.talk.runner;
 
-import com.lsh.talk.domain.ChatFriend;
-import com.lsh.talk.domain.ChatRoom;
-import com.lsh.talk.domain.ChatRoomParticipant;
-import com.lsh.talk.domain.ChatUser;
-import com.lsh.talk.repository.ChatFriendRepository;
-import com.lsh.talk.repository.ChatRoomParticipantRepository;
-import com.lsh.talk.repository.ChatRoomRepository;
-import com.lsh.talk.repository.ChatUserRepository;
+import com.lsh.talk.domain.*;
+import com.lsh.talk.entitymap.UserMapper;
+import com.lsh.talk.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,9 +18,12 @@ import java.time.Instant;
 public class DevDataRunner implements ApplicationRunner {
 
     private final ChatUserRepository chatUserRepository;
+    private final ChatProfileRepository chatProfileRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatFriendRepository chatFriendRepository;
     private final ChatRoomParticipantRepository chatRoomParticipantRepository;
+
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -39,6 +37,8 @@ public class DevDataRunner implements ApplicationRunner {
         seongheon.setCreateDate(Instant.now());
         chatUserRepository.save(seongheon);
 
+        chatProfileRepository.save(userMapper.chatUserToChatProfile(seongheon));
+
         ChatUser user1 = new ChatUser();
         user1.setName("simin");
         user1.setPassword(passwordEncoder.encode("qwer1234"));
@@ -46,6 +46,8 @@ public class DevDataRunner implements ApplicationRunner {
         user1.setUpdateDate(Instant.now());
         user1.setCreateDate(Instant.now());
         chatUserRepository.save(user1);
+
+        chatProfileRepository.save(userMapper.chatUserToChatProfile(user1));
 
         ChatUser user2 = new ChatUser();
         user2.setName("sunsin");
@@ -55,6 +57,8 @@ public class DevDataRunner implements ApplicationRunner {
         user2.setCreateDate(Instant.now());
         chatUserRepository.save(user2);
 
+        chatProfileRepository.save(userMapper.chatUserToChatProfile(user2));
+
         ChatUser user3 = new ChatUser();
         user3.setName("gunhee");
         user3.setPassword(passwordEncoder.encode("qwer1234"));
@@ -63,6 +67,8 @@ public class DevDataRunner implements ApplicationRunner {
         user3.setCreateDate(Instant.now());
         chatUserRepository.save(user3);
 
+        chatProfileRepository.save(userMapper.chatUserToChatProfile(user3));
+
         ChatUser user4 = new ChatUser();
         user4.setName("gimi");
         user4.setPassword(passwordEncoder.encode("qwer1234"));
@@ -70,6 +76,8 @@ public class DevDataRunner implements ApplicationRunner {
         user4.setUpdateDate(Instant.now());
         user4.setCreateDate(Instant.now());
         chatUserRepository.save(user4);
+
+        chatProfileRepository.save(userMapper.chatUserToChatProfile(user4));
 
         ChatFriend chatFriend1 = new ChatFriend();
         chatFriend1.setChatUser(seongheon);
