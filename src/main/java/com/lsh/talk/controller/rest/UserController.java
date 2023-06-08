@@ -1,6 +1,7 @@
 package com.lsh.talk.controller.rest;
 
 import com.lsh.talk.dto.request.FriendRequest;
+import com.lsh.talk.dto.response.FriendProfileResponse;
 import com.lsh.talk.dto.response.FriendResponse;
 import com.lsh.talk.service.ChatUserService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/friends",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<FriendResponse> getFriends(@AuthenticationPrincipal UserDetails userDetail) {
+    public List<FriendProfileResponse> getFriends(@AuthenticationPrincipal UserDetails userDetail) {
 
         return chatUserService.listOfUsersInFriendRelationship(userDetail.getUsername());
     }

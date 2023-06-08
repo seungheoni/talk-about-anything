@@ -1,6 +1,6 @@
 package com.lsh.talk.service;
 
-import com.lsh.talk.dto.response.FriendResponse;
+import com.lsh.talk.dto.response.FriendProfileResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 public interface ChatUserService {
 
 
-    List<FriendResponse> listOfUsersInFriendRelationship(String userName);
+    List<FriendProfileResponse> listOfUsersInFriendRelationship(String userName);
 
     void addFriend(UserDetails loginUser,String newFriendName);
 }

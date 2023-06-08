@@ -1,7 +1,6 @@
 package com.lsh.talk.repository;
 
 import com.lsh.talk.DbIntegrationTest;
-import com.lsh.talk.domain.ChatRoom;
 import com.lsh.talk.domain.ChatRoomParticipant;
 import com.lsh.talk.domain.ChatUser;
 import org.junit.jupiter.api.DisplayName;
