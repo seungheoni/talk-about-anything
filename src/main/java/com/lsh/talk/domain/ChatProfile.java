@@ -1,5 +1,6 @@
 package com.lsh.talk.domain;
 
+import com.lsh.talk.domain.idclass.ChatProfileId;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(ChatProfileId.class)
 public class ChatProfile {
 
     @Id
@@ -21,6 +23,7 @@ public class ChatProfile {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Id
     @ManyToOne
     @JoinColumn(name="chat_user_id", nullable=false)
     private ChatUser chatUser;

@@ -2,9 +2,11 @@ package com.lsh.talk.service;
 
 import com.lsh.talk.domain.ChatFriend;
 import com.lsh.talk.domain.ChatUser;
-import com.lsh.talk.dto.response.FriendResponse;
+import com.lsh.talk.dto.response.FriendProfileResponse;
 import com.lsh.talk.entitymap.FriendMapper;
+import com.lsh.talk.entitymap.ProfileMapper;
 import com.lsh.talk.repository.ChatFriendRepository;
+import com.lsh.talk.repository.ChatUserFriendProfileRepository;
 import com.lsh.talk.repository.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,15 +25,19 @@ public class ChatUserServiceImpl implements ChatUserService {
 
     private final ChatFriendRepository chatFriendRepository;
 
+    private final ChatUserFriendProfileRepository chatUserFriendProfileRepository;
+
     private final FriendMapper friendMapper;
 
+    private final ProfileMapper profileMapper;
+
     @Override
-    public List<FriendResponse> listOfUsersInFriendRelationship(String userName) {
+    public List<FriendProfileResponse> listOfUsersInFriendRelationship(String userName) {
 
         ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
 
-        return chatFriendRepository.findAllByChatUser(chatUser).stream()
-                .map(friendMapper::chatFriendToFriendResponseMapper)
+        return  chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId()).stream()
+                .map(profileMapper::stringToFriendResponseMapper)
                 .collect(Collectors.toList());
     }
 
