@@ -3,7 +3,6 @@ package com.lsh.talk.service;
 import com.lsh.talk.domain.ChatFriend;
 import com.lsh.talk.domain.ChatUser;
 import com.lsh.talk.dto.response.FriendProfileResponse;
-import com.lsh.talk.entitymap.FriendMapper;
 import com.lsh.talk.entitymap.ProfileMapper;
 import com.lsh.talk.repository.ChatFriendRepository;
 import com.lsh.talk.repository.ChatUserFriendProfileRepository;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ChatUserServiceImpl implements ChatUserService {
+public class ChatFriendServiceImpl implements ChatFriendService {
 
     private final ChatUserRepository chatUserRepository;
 
@@ -27,18 +26,11 @@ public class ChatUserServiceImpl implements ChatUserService {
 
     private final ChatUserFriendProfileRepository chatUserFriendProfileRepository;
 
-    private final FriendMapper friendMapper;
-
-    private final ProfileMapper profileMapper;
-
     @Override
     public List<FriendProfileResponse> listOfUsersInFriendRelationship(String userName) {
 
         ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
-
-        return  chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId()).stream()
-                .map(profileMapper::stringToFriendResponseMapper)
-                .collect(Collectors.toList());
+        return chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId());
     }
 
     /**

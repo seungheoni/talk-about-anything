@@ -38,7 +38,7 @@
         </ul>
     </div>
 
-    <div id="myModal" class="modal">
+    <div id="addFriendModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>친구를 추가해주세요.</p>
@@ -58,6 +58,16 @@
                 </div>
             </form>
             <button id="start-chat-submit" type="button">채팅방 생성하기</button>
+        </div>
+    </div>
+
+    <div id="editFriendModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>친구 이름을 변경해주세요.</p>
+            <input type="text" id="new-friend-name" placeholder="새로운 친구 이름을 입력하세요">
+            <input type="hidden" id="new-friend-id">
+            <button id="edit-friend-submit">변경</button>
         </div>
     </div>
 </div>
