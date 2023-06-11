@@ -9,12 +9,12 @@ window.onload = function() {
         openTab(event, 'Chats');
     });
 
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("addFriendModal");
 
     var closeButton = document.getElementsByClassName("close")[0];
 
     closeButton.onclick = function() {
-        var modal = document.getElementById("myModal");
+        var modal = document.getElementById("addFriendModal");
 
         modal.classList.remove("open");
         modal.classList.add("close");
@@ -37,25 +37,19 @@ window.onload = function() {
     addFriendSubmit.addEventListener('click', function(event){
         event.preventDefault();
         let friendName = document.getElementById('friend-name').value;
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/v1/add-friend", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.setRequestHeader(csrfHeader, csrfToken);
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
+        sendAjaxRequest("POST", "/api/v1/friends",
+            {"Content-Type": "application/json;charset=UTF-8", [csrfHeader]: csrfToken},
+            {friendName: friendName},
+            function(xhr) {
                 if (xhr.status === 204) {
-                    // 성공적으로 친구가 추가되었을 때 실행할 코드
                     alert('친구 추가에 성공 했습니다');
                     updateFriendList();
                 } else {
-                    // 친구 추가 실패 시 실행할 코드
                     alert('친구 추가 실패');
                 }
             }
-        };
-
-        xhr.send(JSON.stringify({friendName: friendName}));
+        );
     });
 
     // 새로운 채팅방 생성하기
@@ -75,37 +69,76 @@ window.onload = function() {
     document.querySelector('#start-chat-submit').addEventListener('click', function(event){
         event.preventDefault();
         let selectedFriends = Array.from(document.querySelectorAll('#start-chat-form input:checked'), input => input.value);
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/v1/chatrooms", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.setRequestHeader(csrfHeader, csrfToken);
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
+        sendAjaxRequest("POST", "/api/v1/chatrooms",
+            {"Content-Type": "application/json;charset=UTF-8", [csrfHeader]: csrfToken},
+            selectedFriends,
+            function(xhr) {
                 if (xhr.status === 204) {
-                    // 채팅방 생성에 성공했을 때 실행할 코드
                     alert('채팅방이 성공적으로 생성되었습니다.');
-
-                    // 채팅방 생성 후 모달 닫기
                     var chatModal = document.getElementById("chatModal");
                     chatModal.classList.remove("open");
                     chatModal.classList.add("close");
-
                     setTimeout(function() {
                         chatModal.style.display = "none";
                     }, 500);
-
-                    // 여기서는 채팅방 리스트를 업데이트하는 등 필요한 작업을 수행할 수 있습니다.
                 } else {
-                    // 채팅방 생성 실패 시 실행할 코드
                     alert('채팅방 생성 실패');
                 }
             }
-        };
-
-        xhr.send(JSON.stringify(selectedFriends));
+        );
     });
+
+    document.querySelector('#edit-friend-submit').addEventListener('click', function(event){
+        event.preventDefault();
+
+        let chatUserId = document.getElementById('new-friend-id').value;
+        let newFriendName = document.getElementById('new-friend-name').value;
+        let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        let csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        sendAjaxRequest("PUT", "/api/v1/profiles",
+            {"Content-Type": "application/json;charset=UTF-8", [csrfHeader]: csrfToken},
+            {chatUserId: chatUserId, nameToChange: newFriendName},
+            function(xhr) {
+                if (xhr.status === 204) {
+                    alert('프로필 이름이 변경되었습니다.');
+                    updateFriendList();
+                } else {
+                    alert('프로필 이름 변경 실패');
+                }
+            }
+        );
+    });
+
+    // 친구 목록 업데이트
+    updateFriendList();
 };
+
+// 새로운 친구 이름 변경 모달을 띄우는 함수
+function openEditFriendModal(friendName,chatUserId) {
+    var modal = document.getElementById("editFriendModal");
+    var closeButton = modal.getElementsByClassName("close")[0];
+
+    // 클릭 이벤트 리스너 설정
+    closeButton.onclick = function() {
+        modal.classList.remove("open");
+        modal.classList.add("close");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 500);
+    };
+
+    // 현재 친구 이름을 입력 필드에 표시
+    document.getElementById('new-friend-name').value = friendName;
+    document.getElementById('new-friend-id').value = chatUserId;
+
+    // 모달 열기
+    modal.classList.remove("close");
+    modal.classList.add("open");
+    modal.style.display = "block";
+}
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
@@ -132,6 +165,9 @@ function openTab(evt, tabName) {
         addFriendButton.style.display = 'none';
         startChatButton.style.display = 'none';
     }
+
+    // 새로운 친구 목록 업데이트
+    updateFriendList();
 }
 
 function openChatRoom(element) {
@@ -141,7 +177,7 @@ function openChatRoom(element) {
 
 function addFriendOpenModal() {
 
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("addFriendModal");
 
     modal.classList.remove("close");
     modal.classList.add("open");
@@ -150,74 +186,86 @@ function addFriendOpenModal() {
 }
 
 function updateFriendList() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/v1/friends', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    sendAjaxRequest('GET', '/api/v1/friends',
+        {'Content-Type': 'application/json'},
+        null,
+        function(xhr) {
+            if (xhr.status === 200) {
+                var friends = JSON.parse(xhr.responseText);
+                var friendListElement = document.getElementById('Friends').getElementsByTagName('ul')[0];
+                while (friendListElement.firstChild) {
+                    friendListElement.removeChild(friendListElement.firstChild);
+                }
+                for (var i = 0; i < friends.length; i++) {
+                    var li = document.createElement('li');
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.value = friends[i].chatUserId;
+                    li.textContent = friends[i].friendName;
+                    li.addEventListener('click', function(event) {
+                        openEditFriendModal(event.target.textContent,event.target.lastElementChild.value);
+                    });
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            var friends = JSON.parse(xhr.responseText);
-            var friendListElement = document.getElementById('Friends').getElementsByTagName('ul')[0];
+                    li.appendChild(input);
 
-            // 기존 친구 목록을 비우기
-            while (friendListElement.firstChild) {
-                friendListElement.removeChild(friendListElement.firstChild);
+                    friendListElement.appendChild(li);
+                }
             }
-
-            // 새 친구 목록을 추가하기
-            for (var i = 0; i < friends.length; i++) {
-                var li = document.createElement('li');
-                li.textContent = friends[i].friendName;
-                friendListElement.appendChild(li);
-            }
-
         }
-    };
-
-    xhr.send();
+    );
 }
 
 function startChat() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/v1/friends', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    sendAjaxRequest('GET', '/api/v1/friends',
+        {'Content-Type': 'application/json'},
+        null,
+        function(xhr) {
+            if (xhr.status === 200) {
+                var friends = JSON.parse(xhr.responseText);
+                var friendListElement = document.getElementById('start-chat-form');
+                while (friendListElement.firstChild) {
+                    friendListElement.removeChild(friendListElement.firstChild);
+                }
+                for (var i = 0; i < friends.length; i++) {
+                    var div = document.createElement('div');
+
+                    var input = document.createElement('input');
+                    input.type = "checkbox";
+                    input.id = friends[i].friendName;
+                    input.value = friends[i].friendName;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = friends[i].friendName;
+                    label.textContent = friends[i].friendName;
+
+                    div.appendChild(input);
+                    div.appendChild(label);
+                    friendListElement.appendChild(div);
+                }
+
+                var modal = document.getElementById("chatModal");
+                modal.classList.remove("close");
+                modal.classList.add("open");
+                modal.style.display = "block";
+            }
+        }
+    );
+}
+
+function sendAjaxRequest(method, url, headers, body, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+
+    // 헤더 설정
+    for (let key in headers) {
+        xhr.setRequestHeader(key, headers[key]);
+    }
 
     xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            var friends = JSON.parse(xhr.responseText);
-            var friendListElement = document.getElementById('start-chat-form');
-
-            // 기존 친구 목록을 비우기
-            while (friendListElement.firstChild) {
-                friendListElement.removeChild(friendListElement.firstChild);
-            }
-
-            // 새 친구 목록을 추가하기
-            for (var i = 0; i < friends.length; i++) {
-                var div = document.createElement('div');
-
-                var input = document.createElement('input');
-                input.type = "checkbox";
-                input.id = friends[i].friendName;
-                input.value = friends[i].friendName;
-
-                var label = document.createElement('label');
-                label.htmlFor = friends[i].friendName;
-                label.textContent = friends[i].friendName;
-
-                div.appendChild(input);
-                div.appendChild(label);
-                friendListElement.appendChild(div);
-            }
-
-            var modal = document.getElementById("chatModal");
-
-            modal.classList.remove("close");
-            modal.classList.add("open");
-
-            modal.style.display = "block";
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            callback(xhr);
         }
     };
 
-    xhr.send();
+    xhr.send(JSON.stringify(body));
 }

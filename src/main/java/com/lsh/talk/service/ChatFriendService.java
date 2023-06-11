@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
-public interface ChatUserService {
+public interface ChatFriendService {
 
 
     List<FriendProfileResponse> listOfUsersInFriendRelationship(String userName);

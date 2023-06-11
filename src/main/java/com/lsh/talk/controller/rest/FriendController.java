@@ -2,8 +2,7 @@ package com.lsh.talk.controller.rest;
 
 import com.lsh.talk.dto.request.FriendRequest;
 import com.lsh.talk.dto.response.FriendProfileResponse;
-import com.lsh.talk.dto.response.FriendResponse;
-import com.lsh.talk.service.ChatUserService;
+import com.lsh.talk.service.ChatFriendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,22 +14,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
-public class UserController {
+@RequestMapping("/api/v1/friends")
+public class FriendController {
 
-    private final ChatUserService chatUserService;
+    private final ChatFriendService chatFriendService;
 
-    @PostMapping(value="/add-friend",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addFriend(@AuthenticationPrincipal UserDetails userDetail,@RequestBody FriendRequest friendRequest) {
 
-        chatUserService.addFriend(userDetail,friendRequest.getFriendName());
+        chatFriendService.addFriend(userDetail,friendRequest.getFriendName());
     }
 
-    @GetMapping(value = "/friends",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<FriendProfileResponse> getFriends(@AuthenticationPrincipal UserDetails userDetail) {
 
-        return chatUserService.listOfUsersInFriendRelationship(userDetail.getUsername());
+        return chatFriendService.listOfUsersInFriendRelationship(userDetail.getUsername());
     }
-
 }

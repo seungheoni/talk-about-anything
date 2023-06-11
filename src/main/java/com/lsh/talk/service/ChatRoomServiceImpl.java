@@ -52,12 +52,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         // 채팅방 유저 할당
         userNames.add(loginChatUser.getName());
         List<ChatRoomParticipant> chatRoomParticipants = chatUserRepository.findByNameIn(userNames)
-                .stream().map(u -> {
-                    return ChatRoomParticipant.builder()
-                            .chatUser(u)
-                            .chatRoom(newChatRoom)
-                            .joinedDate(Instant.now()).build();
-                }).toList();
+                .stream().map(u -> ChatRoomParticipant.builder()
+                        .chatUser(u)
+                        .chatRoom(newChatRoom)
+                        .joinedDate(Instant.now()).build()).toList();
 
         chatRoomParticipantRepository.saveAll(chatRoomParticipants);
     }

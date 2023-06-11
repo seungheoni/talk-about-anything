@@ -13,4 +13,5 @@ public interface ProfileMapper {
 
     @Mapping(source = ".",target = "friendName")
     FriendProfileResponse stringToFriendResponseMapper(String profileName);
+
 }

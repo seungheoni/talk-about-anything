@@ -2,6 +2,7 @@ package com.lsh.talk.repository;
 
 import com.lsh.talk.DbIntegrationTest;
 import com.lsh.talk.domain.ChatUser;
+import com.lsh.talk.dto.response.FriendProfileResponse;
 import com.lsh.talk.entitymap.ProfileMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,8 @@ class ChatUserFriendProfileRepositoryTest extends DbIntegrationTest {
 
         ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
 
-        List<String> profilenames = chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId());
+        List<FriendProfileResponse> friendProfiles = chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId());
 
-        assertNotNull(profilenames);
+        assertNotNull(friendProfiles);
     }
 }
