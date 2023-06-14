@@ -23,9 +23,6 @@ public class ChatRoom {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
 
