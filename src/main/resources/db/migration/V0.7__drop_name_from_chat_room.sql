@@ -1,0 +1,1 @@
+ALTER TABLE chat_room DROP COLUMN name;
