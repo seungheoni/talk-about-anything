@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : ''}"/>
+    <meta name="_csrf_header" th:content="${_csrf != null ? _csrf.headerName : ''}"/>
     <title>Main</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/main/main.css}">
     <script th:src="@{/static/js/main/main.js}"></script>
@@ -41,7 +41,7 @@
     <div id="addFriendModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>친구를 추가해주세요.</p>
+            <p>친구로 추가할 아이디(이름)을 입력해주세요.</p>
             <input type="text" id="friend-name" placeholder="친구 이름을 입력하세요">
             <button id="add-friend-submit">추가</button>
         </div>

@@ -27,4 +27,14 @@ class ChatRoomParticipantRepositoryTest extends DbIntegrationTest {
 
         assertNotNull(chatRoomParticipants);
     }
+
+    @Test
+    @DisplayName("채팅방 id에 해당하는 전체목록조회")
+    void findAllByChatRoom() {
+        ChatUser user = chatUserRepository.findByName("seongheon").orElseThrow();
+        List<ChatRoomParticipant> chatRooms = chatRoomParticipantRepository.findAllByChatUser(user);
+        List<ChatRoomParticipant> chatRoomParticipants = chatRoomParticipantRepository.findAllByChatRoom(chatRooms.get(0).getChatRoom());
+
+        assertNotNull(chatRoomParticipants);
+    }
 }

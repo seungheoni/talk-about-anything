@@ -1,8 +1,11 @@
 package com.lsh.talk.service;
 
+import com.lsh.talk.domain.ChatProfile;
 import com.lsh.talk.domain.ChatRoom;
 import com.lsh.talk.domain.ChatRoomParticipant;
 import com.lsh.talk.domain.ChatUser;
+import com.lsh.talk.dto.response.ChatRoomResponse;
+import com.lsh.talk.repository.ChatProfileRepository;
 import com.lsh.talk.repository.ChatRoomParticipantRepository;
 import com.lsh.talk.repository.ChatRoomRepository;
 import com.lsh.talk.repository.ChatUserRepository;
@@ -11,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,12 +27,28 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomParticipantRepository chatRoomParticipantRepository;
     private final ChatUserRepository chatUserRepository;
 
-    @Override
-    public List<ChatRoom> listOfChatRoomsUserBelongsTo(String userName) {
+    private final ChatProfileRepository chatProfileRepository;
 
-        ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
-        return chatRoomParticipantRepository.findAllByChatUser(chatUser)
-                .stream().map(ChatRoomParticipant::getChatRoom).collect(Collectors.toList());
+    @Override
+    public List<ChatRoomResponse> listOfChatRoomsUserBelongsTo(String userName) {
+
+        ChatUser loginUser = chatUserRepository.findByName(userName).orElseThrow();
+
+        return chatRoomParticipantRepository.findAllByChatUser(loginUser)
+                .stream().map(ChatRoomParticipant::getChatRoom).map(chatRoom -> {
+
+                    List<UUID> participantsUserId = new ArrayList<>();
+
+                    //해당 채팅방 참가자 프로필정보를 조회하여 채팅방 제목을 설정한다.
+                    chatRoomParticipantRepository.findAllByChatRoom(chatRoom).stream().filter(rp->!rp.getChatUser().getName().equals(loginUser.getName())).forEach(rp -> participantsUserId.add(rp.getChatUser().getId()));
+                    List<String> chatRoomSubject = chatProfileRepository.findAllByChatUserIdIn(participantsUserId).stream().map(ChatProfile::getName).toList();
+
+                    return ChatRoomResponse.builder()
+                            .id(chatRoom.getId())
+                            .name(chatRoomSubject.toString())
+                            .build();
+
+                }).toList();
     }
 
     @Override
@@ -37,25 +57,30 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public void createChatRoom(UserDetails loginUser, List<String> userNames) {
+    public void createChatRoom(UserDetails loginUser, List<UUID> chatUserIds) {
 
-        ChatUser loginChatUser = chatUserRepository.findByName(loginUser.getUsername()).orElseThrow();
+        ChatProfile loginUserProfile= chatUserRepository.findByName(loginUser.getUsername())
+                                                    .map(u-> chatProfileRepository.findByChatUserId(u.getId()).orElseThrow()).orElseThrow();
+
+        List<ChatProfile> participantsProfiles = chatProfileRepository.findAllByChatUserIdIn(chatUserIds);
+
+        participantsProfiles.add(loginUserProfile);
 
         // 새로운 채팅 방 생성
         ChatRoom newChatRoom = ChatRoom.builder()
-                .name(userNames.toString())
                 .createdDate(Instant.now())
-                .createdChatUser(loginChatUser)
+                .createdChatUser(loginUserProfile.getChatUser())
                 .build();
+
         chatRoomRepository.save(newChatRoom);
 
-        // 채팅방 유저 할당
-        userNames.add(loginChatUser.getName());
-        List<ChatRoomParticipant> chatRoomParticipants = chatUserRepository.findByNameIn(userNames)
-                .stream().map(u -> ChatRoomParticipant.builder()
-                        .chatUser(u)
-                        .chatRoom(newChatRoom)
-                        .joinedDate(Instant.now()).build()).toList();
+        List<ChatRoomParticipant> chatRoomParticipants = participantsProfiles.stream()
+                                                                     .map(p -> ChatRoomParticipant.builder()
+                                                                                .chatUser(p.getChatUser())
+                                                                                .chatRoom(newChatRoom)
+                                                                                .joinedDate(Instant.now())
+                                                                                .build())
+                                                                     .toList();
 
         chatRoomParticipantRepository.saveAll(chatRoomParticipants);
     }

@@ -92,27 +92,13 @@ public class DevDataRunner implements ApplicationRunner {
         chatFriendRepository.save(chatFriend2);
 
         ChatRoom room1 = new ChatRoom();
-        room1.setName("Room1");
         room1.setCreatedDate(Instant.now());
         room1.setCreatedChatUser(seongheon);
         chatRoomRepository.save(room1);
 
         ChatRoom room2 = new ChatRoom();
-        room2.setName("Room2");
         room2.setCreatedDate(Instant.now());
         room2.setCreatedChatUser(seongheon);
         chatRoomRepository.save(room2);
-
-        ChatRoomParticipant participant1 = new ChatRoomParticipant();
-        participant1.setChatRoom(room1);
-        participant1.setChatUser(seongheon);
-        participant1.setJoinedDate(Instant.now());
-        chatRoomParticipantRepository.save(participant1);
-
-        ChatRoomParticipant participant2 = new ChatRoomParticipant();
-        participant2.setChatRoom(room2);
-        participant2.setChatUser(seongheon);
-        participant2.setJoinedDate(Instant.now());
-        chatRoomParticipantRepository.save(participant2);
     }
 }

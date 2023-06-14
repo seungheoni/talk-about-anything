@@ -52,7 +52,7 @@ window.onload = function() {
         );
     });
 
-    // 새로운 채팅방 생성하기
+    // 새로운 채팅방 생성하기 모달창 뜨우기
     document.querySelector('#start-chat-btn').addEventListener('click', startChat);
 
     var chatCloseButton = document.getElementById("chatModal").getElementsByClassName("close")[0];
@@ -82,6 +82,9 @@ window.onload = function() {
                     setTimeout(function() {
                         chatModal.style.display = "none";
                     }, 500);
+
+                    //채팅방 목록 업데이트
+                    updateChatRoomList();
                 } else {
                     alert('채팅방 생성 실패');
                 }
@@ -104,6 +107,7 @@ window.onload = function() {
                 if (xhr.status === 204) {
                     alert('프로필 이름이 변경되었습니다.');
                     updateFriendList();
+                    updateChatRoomList();
                 } else {
                     alert('프로필 이름 변경 실패');
                 }
@@ -113,6 +117,9 @@ window.onload = function() {
 
     // 친구 목록 업데이트
     updateFriendList();
+
+    // 채팅방 목록 업데이트
+    updateChatRoomList();
 };
 
 // 새로운 친구 이름 변경 모달을 띄우는 함수
@@ -232,7 +239,7 @@ function startChat() {
                     var input = document.createElement('input');
                     input.type = "checkbox";
                     input.id = friends[i].friendName;
-                    input.value = friends[i].friendName;
+                    input.value = friends[i].chatUserId;
 
                     var label = document.createElement('label');
                     label.htmlFor = friends[i].friendName;
@@ -268,4 +275,30 @@ function sendAjaxRequest(method, url, headers, body, callback) {
     };
 
     xhr.send(JSON.stringify(body));
+}
+
+function updateChatRoomList() {
+    sendAjaxRequest('GET', '/api/v1/chatrooms',
+        {'Content-Type': 'application/json'},
+        null,
+        function(xhr) {
+            if (xhr.status === 200) {
+                var chatrooms = JSON.parse(xhr.responseText);
+                var chatroomsListElement = document.getElementById('Chats').getElementsByTagName('ul')[0];
+                while (chatroomsListElement.firstChild) {
+                    chatroomsListElement.removeChild(chatroomsListElement.firstChild);
+                }
+                for (var i = 0; i < chatrooms.length; i++) {
+                    var li = document.createElement('li');
+                    li.textContent = chatrooms[i].name;
+                    li.setAttribute('data-room-id', chatrooms[i].id);
+                    li.addEventListener('click', function(event) {
+                        openChatRoom(event.target);
+                    });
+
+                    chatroomsListElement.appendChild(li);
+                }
+            }
+        }
+    );
 }

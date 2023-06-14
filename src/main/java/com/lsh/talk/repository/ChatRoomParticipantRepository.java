@@ -1,5 +1,6 @@
 package com.lsh.talk.repository;
 
+import com.lsh.talk.domain.ChatRoom;
 import com.lsh.talk.domain.ChatRoomParticipant;
 import com.lsh.talk.domain.ChatUser;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,8 @@ import java.util.UUID;
 public interface ChatRoomParticipantRepository extends JpaRepository<ChatRoomParticipant, UUID> {
 
     List<ChatRoomParticipant> findAllByChatUser(ChatUser chatUser);
+
+    List<ChatRoomParticipant> findAllByChatRoom(ChatRoom chatRoom);
+
+
 }
