@@ -107,6 +107,7 @@ window.onload = function() {
                 if (xhr.status === 204) {
                     alert('프로필 이름이 변경되었습니다.');
                     updateFriendList();
+                    updateChatRoomList();
                 } else {
                     alert('프로필 이름 변경 실패');
                 }
