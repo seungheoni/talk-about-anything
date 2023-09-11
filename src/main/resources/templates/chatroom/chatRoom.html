@@ -1,11 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <h1>채팅방 접속 페이지</h1>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅방</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/chatroom/chatRoom.css}">
 </head>
 <body>
-
+<div class="chat-container">
+    <div class="chat-header">채팅방 제목</div>
+        <div class="chat-messages">
+            <div class="message received">
+<!--                <img src="path_to_image1.jpg" alt="유저1의 프로필 사진" class="profile-image">-->
+                <span class="username">유저1</span>
+                <div class="message-content">
+                    안녕하세요!
+                </div>
+            </div>
+            <div class="message sent">
+<!--                <img src="path_to_image2.jpg" alt="유저2의 프로필 사진" class="profile-image">-->
+<!--                <span class="username">유저2</span>-->
+                <div class="message-content">
+                    안녕하세요, 반갑습니다!
+                </div>
+            </div>
+        </div>
+    <div class="chat-input">
+        <input type="text" placeholder="메시지를 입력하세요...">
+        <button>전송</button>
+    </div>
+</div>
 </body>
 </html>
