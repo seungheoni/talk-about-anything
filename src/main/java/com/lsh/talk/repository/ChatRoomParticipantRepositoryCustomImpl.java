@@ -58,6 +58,7 @@ public class ChatRoomParticipantRepositoryCustomImpl implements ChatRoomParticip
                     .where(chatProfile.chatUser.id.in(notFriendUserIds))
                     .fetch();
 
+            //친구가 아닌 참가자 프로필 정보를 토대로 null 값 이름 세팅
             participants.stream().filter(participantFriendDTO -> participantFriendDTO.getName() == null).forEach(p-> {
 
                 for(ChatProfile c : notFriendUsers) {
