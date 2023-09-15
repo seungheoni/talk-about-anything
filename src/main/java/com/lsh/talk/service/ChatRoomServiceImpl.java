@@ -28,9 +28,21 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         ChatUser loginUser = chatUserRepository.findByUniqueName(userName).orElseThrow();
 
-        List<List<ParticipantFriendDTO>> lists = chatRoomParticipantRepository.findChatRoomParticipants(loginUser.getId());
+        List<List<ParticipantFriendDTO>> participantInChatRooms = chatRoomParticipantRepository.findChatRoomParticipants(loginUser.getId());
 
+        List<ChatRoomResponse> chatRoomResponses = new ArrayList<>();
 
+        participantInChatRooms.forEach(room -> {
+
+            String subjects = room.stream()
+                    .map(r -> r.getName())
+                    .collect(Collectors.toList()).toString();
+
+            chatRoomResponses.add(ChatRoomResponse.builder()
+                    .id(room.get(0).getChatRoomId()).name(subjects).build());
+        });
+
+        return chatRoomResponses;
 //
 //        lists.stream().map(list -> {
 //
@@ -45,10 +57,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 //                .id(chatRoom.getId())
 //                .name(chatRoomSubject.toString())
 //                .build();;
-
-
-        return null;
-
         /*return chatRoomParticipantRepository.findAllByChatUser(loginUser)
                 .stream().map(ChatRoomParticipant::getChatRoom).map(chatRoom -> {
 

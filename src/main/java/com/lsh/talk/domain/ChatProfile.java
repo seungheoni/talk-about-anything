@@ -1,6 +1,7 @@
 package com.lsh.talk.domain;
 
 import com.lsh.talk.domain.idclass.ChatProfileId;
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
