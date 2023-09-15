@@ -1,5 +1,6 @@
 package com.lsh.talk.controller.rest;
 
+import com.lsh.talk.dto.request.FriendNameChangeRequest;
 import com.lsh.talk.dto.request.FriendRequest;
 import com.lsh.talk.dto.response.FriendProfileResponse;
 import com.lsh.talk.service.ChatFriendService;
@@ -30,5 +31,16 @@ public class FriendController {
     public List<FriendProfileResponse> getFriends(@AuthenticationPrincipal UserDetails userDetail) {
 
         return chatFriendService.listOfUsersInFriendRelationship(userDetail.getUsername());
+    }
+
+    /**
+     * 프로필 이름 변경
+     * @param friendNameChangeRequest 변경할 프로필 이름 정보와 변경할 유저id
+     */
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editProfile(@RequestBody FriendNameChangeRequest friendNameChangeRequest) {
+
+        chatFriendService.editFriendName(friendNameChangeRequest);
     }
 }

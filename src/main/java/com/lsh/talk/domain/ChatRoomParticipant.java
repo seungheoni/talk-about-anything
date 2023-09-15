@@ -1,11 +1,13 @@
 package com.lsh.talk.domain;
 
 import com.lsh.talk.domain.idclass.ChatRoomParticipantId;
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "chat_room_participant")

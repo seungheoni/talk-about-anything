@@ -30,7 +30,7 @@ public class DevDataRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         ChatUser seongheon = new ChatUser();
-        seongheon.setName("seongheon");
+        seongheon.setUniqueName("seongheon");
         seongheon.setPassword(passwordEncoder.encode("qwer1234"));
         seongheon.setHashType("SHA-256");
         seongheon.setUpdateDate(Instant.now());
@@ -40,7 +40,7 @@ public class DevDataRunner implements ApplicationRunner {
         chatProfileRepository.save(userMapper.chatUserToChatProfile(seongheon));
 
         ChatUser user1 = new ChatUser();
-        user1.setName("simin");
+        user1.setUniqueName("simin");
         user1.setPassword(passwordEncoder.encode("qwer1234"));
         user1.setHashType("SHA-256");
         user1.setUpdateDate(Instant.now());
@@ -50,7 +50,7 @@ public class DevDataRunner implements ApplicationRunner {
         chatProfileRepository.save(userMapper.chatUserToChatProfile(user1));
 
         ChatUser user2 = new ChatUser();
-        user2.setName("sunsin");
+        user2.setUniqueName("sunsin");
         user2.setPassword(passwordEncoder.encode("qwer1234"));
         user2.setHashType("SHA-256");
         user2.setUpdateDate(Instant.now());
@@ -60,7 +60,7 @@ public class DevDataRunner implements ApplicationRunner {
         chatProfileRepository.save(userMapper.chatUserToChatProfile(user2));
 
         ChatUser user3 = new ChatUser();
-        user3.setName("gunhee");
+        user3.setUniqueName("gunhee");
         user3.setPassword(passwordEncoder.encode("qwer1234"));
         user3.setHashType("SHA-256");
         user3.setUpdateDate(Instant.now());
@@ -70,7 +70,7 @@ public class DevDataRunner implements ApplicationRunner {
         chatProfileRepository.save(userMapper.chatUserToChatProfile(user3));
 
         ChatUser user4 = new ChatUser();
-        user4.setName("gimi");
+        user4.setUniqueName("gimi");
         user4.setPassword(passwordEncoder.encode("qwer1234"));
         user4.setHashType("SHA-256");
         user4.setUpdateDate(Instant.now());
@@ -82,12 +82,14 @@ public class DevDataRunner implements ApplicationRunner {
         ChatFriend chatFriend1 = new ChatFriend();
         chatFriend1.setChatUser(seongheon);
         chatFriend1.setFriendChatUser(user1);
+        chatFriend1.setName(user1.getUniqueName());
         chatFriend1.setCreatedDate(Instant.now());
         chatFriendRepository.save(chatFriend1);
 
         ChatFriend chatFriend2 = new ChatFriend();
         chatFriend2.setChatUser(seongheon);
         chatFriend2.setFriendChatUser(user2);
+        chatFriend2.setName(user2.getUniqueName());
         chatFriend2.setCreatedDate(Instant.now());
         chatFriendRepository.save(chatFriend2);
 

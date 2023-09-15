@@ -29,7 +29,7 @@ class ChatUserFriendProfileRepositoryTest extends DbIntegrationTest {
 
         String userName = "seongheon";
 
-        ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
+        ChatUser chatUser = chatUserRepository.findByUniqueName(userName).orElseThrow();
 
         List<FriendProfileResponse> friendProfiles = chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId());
 

@@ -11,7 +11,7 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = ".", target = "chatUser")
-    @Mapping(source = "name", target = "name")
+    @Mapping(source = "uniqueName", target = "name")
     @Mapping(target = "profileIcon", ignore = true)
     ChatProfile chatUserToChatProfile(ChatUser chatUser);
 }

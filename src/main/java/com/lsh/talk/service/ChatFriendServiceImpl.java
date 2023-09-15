@@ -1,10 +1,13 @@
 package com.lsh.talk.service;
 
 import com.lsh.talk.domain.ChatFriend;
+import com.lsh.talk.domain.ChatProfile;
 import com.lsh.talk.domain.ChatUser;
+import com.lsh.talk.dto.request.FriendNameChangeRequest;
 import com.lsh.talk.dto.response.FriendProfileResponse;
 import com.lsh.talk.entitymap.ProfileMapper;
 import com.lsh.talk.repository.ChatFriendRepository;
+import com.lsh.talk.repository.ChatProfileRepository;
 import com.lsh.talk.repository.ChatUserFriendProfileRepository;
 import com.lsh.talk.repository.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +29,12 @@ public class ChatFriendServiceImpl implements ChatFriendService {
 
     private final ChatUserFriendProfileRepository chatUserFriendProfileRepository;
 
+    private final ChatProfileRepository chatProfileRepository;
+
     @Override
     public List<FriendProfileResponse> listOfUsersInFriendRelationship(String userName) {
 
-        ChatUser chatUser = chatUserRepository.findByName(userName).orElseThrow();
+        ChatUser chatUser = chatUserRepository.findByUniqueName(userName).orElseThrow();
         return chatUserFriendProfileRepository.findFriendsAndProfiles(chatUser.getId());
     }
 
@@ -43,15 +48,24 @@ public class ChatFriendServiceImpl implements ChatFriendService {
     @Override
     @Transactional
     public void addFriend(UserDetails userDetail, String newFriendName) {
-        ChatUser loginUser = chatUserRepository.findByName(userDetail.getUsername()).orElseThrow();
-        ChatUser newFriendUser = chatUserRepository.findByName(newFriendName).orElseThrow();
+        ChatUser loginUser = chatUserRepository.findByUniqueName(userDetail.getUsername()).orElseThrow();
+        ChatUser newFriendUser = chatUserRepository.findByUniqueName(newFriendName).orElseThrow();
+        ChatProfile newFriendProfile = chatProfileRepository.findByChatUserId(newFriendUser.getId()).orElseThrow();
 
         ChatFriend chatFriend = ChatFriend.builder()
                 .chatUser(loginUser)
                 .friendChatUser(newFriendUser)
+                .name(newFriendProfile.getName())
                 .createdDate(Instant.now())
                 .build();
 
         chatFriendRepository.save(chatFriend);
+    }
+
+    @Override
+    @Transactional
+    public void editFriendName(FriendNameChangeRequest friendNameChangeRequest) {
+        ChatFriend chatFriend = chatFriendRepository.findByFriendChatUserId(friendNameChangeRequest.getChatUserId()).orElseThrow();
+        chatFriend.setName(friendNameChangeRequest.getNameToChange());
     }
 }

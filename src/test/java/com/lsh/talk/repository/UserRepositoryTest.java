@@ -26,7 +26,7 @@ class UserRepositoryTest extends DbIntegrationTest {
 
         // 테스트 데이터 생성
         ChatUser user = ChatUser.builder()
-                .name("test")
+                .uniqueName("test")
                 .password("qwer1234")
                 .hashType("")
                 .updateDate(Instant.now())
@@ -40,7 +40,7 @@ class UserRepositoryTest extends DbIntegrationTest {
 
         // 검증
         assertThat(foundUser).isPresent();
-        assertThat(foundUser.get().getName()).isEqualTo(user.getName());
+        assertThat(foundUser.get().getUniqueName()).isEqualTo(user.getUniqueName());
         assertThat(foundUser.get().getPassword()).isEqualTo(user.getPassword());
         assertThat(foundUser.get().getHashType()).isEqualTo(user.getHashType());
     }

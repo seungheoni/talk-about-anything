@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class ProfileNameChangeRequest {
+public class FriendNameChangeRequest {
 
     private UUID chatUserId;
 

@@ -19,11 +19,11 @@ public class UserDetailServiceImpl implements UserDetailsService  {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        ChatUser user = userRepository.findByName(username)
+        ChatUser user = userRepository.findByUniqueName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("유저이름에 해당하는 유저를 찾을수 없습니다.: " + username));
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getName())
+                .withUsername(user.getUniqueName())
                 .password(user.getPassword())
                 .authorities(new ArrayList<>()) // 권한 설정
                 .accountExpired(false)

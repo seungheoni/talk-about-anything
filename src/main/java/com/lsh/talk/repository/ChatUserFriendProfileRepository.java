@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface ChatUserFriendProfileRepository extends JpaRepository<ChatFriend, UUID> {
 
-    @Query("SELECT new com.lsh.talk.dto.response.FriendProfileResponse(p.chatUser.id, p.name) FROM ChatFriend cf " +
+    @Query("SELECT new com.lsh.talk.dto.response.FriendProfileResponse(p.chatUser.id, cf.name) FROM ChatFriend cf " +
             "JOIN ChatProfile p ON cf.friendChatUser.id = p.chatUser.id " +
             "WHERE cf.chatUser.id = :userId")
     List<FriendProfileResponse> findFriendsAndProfiles(@Param("userId") UUID userId);

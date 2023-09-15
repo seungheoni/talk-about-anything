@@ -22,7 +22,7 @@ public class ChatUser {
     private UUID id;
 
     @Column(nullable = false)
-    private String name;
+    private String uniqueName;
 
     @Column(nullable = false)
     private String password;

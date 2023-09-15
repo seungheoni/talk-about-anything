@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {})
 public interface FriendMapper {
 
-    @Mapping(source = "friendChatUser.name",target = "friendName")
+    @Mapping(source = "friendChatUser.uniqueName",target = "friendName")
     FriendResponse chatFriendToFriendResponseMapper(ChatFriend chatFriend);
 }

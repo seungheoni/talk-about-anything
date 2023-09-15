@@ -22,7 +22,7 @@ class ChatFriendRepositoryTest extends DbIntegrationTest {
     @Test
     @DisplayName("유저객체 정보 자체를 통하여 해당 유저 이름에 해당하는 친구 목록 조회")
     void findAllByChatUser() {
-        ChatUser chatUser = chatUserRepository.findByName("seongheon").orElseThrow();
+        ChatUser chatUser = chatUserRepository.findByUniqueName("seongheon").orElseThrow();
         List<ChatFriend> chatFriends  = chatFriendRepository.findAllByChatUser(chatUser);
         assertNotNull(chatFriends);
     }

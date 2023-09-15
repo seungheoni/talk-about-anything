@@ -1,5 +1,6 @@
 package com.lsh.talk.domain;
 
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,4 +30,9 @@ public class ChatRoom {
     @ManyToOne
     @JoinColumn(name="created_chat_user_id", nullable=false)
     private ChatUser createdChatUser;
+
+//    @QueryProjection
+//    public ChatRoom(UUID id) {
+//        this.id = id;
+//    }
 }

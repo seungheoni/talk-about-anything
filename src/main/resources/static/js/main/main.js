@@ -100,7 +100,7 @@ window.onload = function() {
         let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
         let csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-        sendAjaxRequest("PUT", "/api/v1/profiles",
+        sendAjaxRequest("PUT", "/api/v1/friends",
             {"Content-Type": "application/json;charset=UTF-8", [csrfHeader]: csrfToken},
             {chatUserId: chatUserId, nameToChange: newFriendName},
             function(xhr) {

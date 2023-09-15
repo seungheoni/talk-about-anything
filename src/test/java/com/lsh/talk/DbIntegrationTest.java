@@ -36,7 +36,7 @@ public class DbIntegrationTest {
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
             .withDatabaseName("talkAboutAnything")
             .withUsername("seongheon")
-            .withPassword("qwer1234");;
+            .withPassword("qwer1234");
 
     static {
         postgreSQLContainer.start();

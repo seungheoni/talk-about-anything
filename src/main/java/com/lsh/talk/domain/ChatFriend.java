@@ -26,6 +26,9 @@ public class ChatFriend {
     @JoinColumn(name="friend_chat_user_id", nullable=false)
     private ChatUser friendChatUser;
 
+    @Column(name = "name",nullable = false)
+    private String name;
+
     @Column(name = "created_date", nullable = false)
     private Instant createdDate;
 

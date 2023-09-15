@@ -10,11 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ChatRoomParticipantRepository extends JpaRepository<ChatRoomParticipant, UUID> {
+public interface ChatRoomParticipantRepository extends JpaRepository<ChatRoomParticipant, UUID>, ChatRoomParticipantRepositoryCustom {
 
     List<ChatRoomParticipant> findAllByChatUser(ChatUser chatUser);
 
     List<ChatRoomParticipant> findAllByChatRoom(ChatRoom chatRoom);
-
-
 }
